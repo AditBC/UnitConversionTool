@@ -13,6 +13,90 @@ function App() {
   }]);
   const [hovering, setHovering] = useState(false);
   const [draggingIndex, setDraggingIndex] = useState(null);
+  const [language, setLanguage] = useState('en');
+
+  const translations = {
+    en: {
+      title: 'Unit Converter',
+      home: 'Home',
+      about: 'About',
+      services: 'Services',
+      contact: 'Contact',
+      enterValue: 'Enter value',
+      result: 'Result',
+      temperature: 'Temperature',
+      length: 'Length',
+      weight: 'Weight',
+      area: 'Area',
+      volume: 'Volume',
+      time: 'Time',
+      addConversion: '+ Add Conversion',
+    },
+    es: {
+      title: 'Convertidor de Unidades',
+      home: 'Inicio',
+      about: 'Acerca de',
+      services: 'Servicios',
+      contact: 'Contacto',
+      enterValue: 'Ingrese un valor',
+      result: 'Resultado',
+      temperature: 'Temperatura',
+      length: 'Longitud',
+      weight: 'Peso',
+      area: 'Área',
+      volume: 'Volumen',
+      time: 'Tiempo',
+      addConversion: '+ Agregar Conversión',
+    },
+    zh: {
+      title: '单位换算器',
+      home: '主页',
+      about: '关于',
+      services: '服务',
+      contact: '联系方式',
+      enterValue: '输入值',
+      result: '结果',
+      temperature: '温度',
+      length: '长度',
+      weight: '重量',
+      area: '面积',
+      volume: '体积',
+      time: '时间',
+      addConversion: '+ 添加转换',
+    },
+    hi: {
+      title: 'इकाई परिवर्तक',
+      home: 'होम',
+      about: 'के बारे में',
+      services: 'सेवाएँ',
+      contact: 'संपर्क',
+      enterValue: 'मान दर्ज करें',
+      result: 'परिणाम',
+      temperature: 'तापमान',
+      length: 'लंबाई',
+      weight: 'वजन',
+      area: 'क्षेत्र',
+      volume: 'आयतन',
+      time: 'समय',
+      addConversion: '+ रूपांतरण जोड़ें',
+    },
+    ar: {
+      title: 'محول الوحدات',
+      home: 'الرئيسية',
+      about: 'حول',
+      services: 'خدمات',
+      contact: 'اتصل',
+      enterValue: 'أدخل القيمة',
+      result: 'النتيجة',
+      temperature: 'درجة الحرارة',
+      length: 'طول',
+      weight: 'وزن',
+      area: 'مساحة',
+      volume: 'حجم',
+      time: 'وقت',
+      addConversion: '+ إضافة تحويل',
+    },
+  };
 
   const units = {
     temperature: {
@@ -243,19 +327,34 @@ function App() {
     setDraggingIndex(null);
   };
 
+  const handleLanguageChange = (newLanguage) => {
+    setLanguage(newLanguage);
+  };
+
+  const t = translations[language];
+
   return (
     <div className="app-container">
       <nav className="top-nav">
         <div className="nav-brand">Quanto</div>
         <div className="nav-buttons">
-          <button>Home</button>
-          <button>About</button>
-          <button>Services</button>
-          <button>Contact</button>
+          <button>{t.home}</button>
+          <button>{t.about}</button>
+          <button>{t.services}</button>
+          <button>{t.contact}</button>
+        </div>
+        <div className="language-selector">
+          <select value={language} onChange={(e) => handleLanguageChange(e.target.value)}>
+            <option value="en">English 🇺🇸</option>
+            <option value="es">Español 🇪🇸</option>
+            <option value="zh">中文 🇨🇳</option>
+            <option value="hi">हिन्दी 🇮🇳</option>
+            <option value="ar">العربية 🇸🇦</option>
+          </select>
         </div>
       </nav>
       <div className="container">
-        <h1>Unit Converter</h1>
+        <h1>{t.title}</h1>
         {conversions.map((conversion, index) => (
           <div
             className={`conversion-box ${draggingIndex === index ? 'dragging' : ''}`}
@@ -272,44 +371,44 @@ function App() {
                 className={`unit-type-button ${conversion.unitType === 'temperature' ? 'active' : ''}`}
                 onClick={() => handleUnitTypeChange('temperature', index)}
               >
-                Temperature
+                {t.temperature}
               </button>
               <button
                 className={`unit-type-button ${conversion.unitType === 'length' ? 'active' : ''}`}
                 onClick={() => handleUnitTypeChange('length', index)}
               >
-                Length
+                {t.length}
               </button>
               <button
                 className={`unit-type-button ${conversion.unitType === 'weight' ? 'active' : ''}`}
                 onClick={() => handleUnitTypeChange('weight', index)}
               >
-                Weight
+                {t.weight}
               </button>
               <button
                 className={`unit-type-button ${conversion.unitType === 'area' ? 'active' : ''}`}
                 onClick={() => handleUnitTypeChange('area', index)}
               >
-                Area
+                {t.area}
               </button>
               <button
                 className={`unit-type-button ${conversion.unitType === 'volume' ? 'active' : ''}`}
                 onClick={() => handleUnitTypeChange('volume', index)}
               >
-                Volume
+                {t.volume}
               </button>
               <button
                 className={`unit-type-button ${conversion.unitType === 'time' ? 'active' : ''}`}
                 onClick={() => handleUnitTypeChange('time', index)}
               >
-                Time
+                {t.time}
               </button>
             </div>
             <div className="input-group">
               <input
                 type="text"
                 className="input-field"
-                placeholder="Enter value"
+                placeholder={t.enterValue}
                 value={conversion.inputValue}
                 onChange={(e) => handleInputChange(e, index)}
               />
@@ -330,7 +429,7 @@ function App() {
               <input
                 type="text"
                 className="input-field"
-                placeholder="Result"
+                placeholder={t.result}
                 value={conversion.outputValue}
                 onChange={(e) => handleOutputValueChange(e, index)}
               />
@@ -352,7 +451,7 @@ function App() {
           <hr className="add-conversion-line" />
           {hovering && (
             <button className="add-conversion-button" onClick={addConversion}>
-              + Add Conversion
+              {t.addConversion}
             </button>
           )}
         </div>
